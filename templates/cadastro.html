@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Morador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
+ 
+</head>
+
+
+<body>
+    <header>
+    
+        <div class="form-search">
+            <h1>Portaria Express</h1>
+        
+            <!-- Formulário de busca -->
+            <form class="search-bar" action="{{ url_for('morador.buscar') }}" method="POST">
+              <input type="text" name="nome" placeholder="SEARCH..." />
+              <button type="submit">
+                🔍
+              </button>
+            </form>
+    
+    
+        </div>
+     </header>
+  <div class="container">
+    
+
+    <div class="form-img">
+        <img src="/static/img/add.svg" width="200">
+
+    </div>
+
+    <div class="form-row">
+        <div class="form-header">
+            <div  class="title">
+                <h1>Cadastrar Morador</h1>
+            </div>
+
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div id="popup">
+            {% for category, message in messages %}
+              <div class="popup-msg {{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      
+        <form method="POST" action="{{ url_for('morador.cadastrar') }}">
+          <div class="form-box">
+            <div class="form-group">
+               <label> Nome</label> <input class="box" type="text" name="nome" placeholder="Dígete o nome" value="{{ morador.nome if morador else '' }}">
+            </div>
+            <div class="form-group">
+               <label>Email</label> <input type="email" name="email" placeholder="Email" value="{{ morador.email if morador else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Telefone:</label><input type="tel" name="number" placeholder="(XX) xxxxx-xxxx" value="{{ morador.tel if morador else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Complemento:</label><input type="text" name="complemento" placeholder="Bloco 3 apto 55" value="{{ morador.complemento if morador else '' }}">
+            </div>
+           <div class="btn-registrar">
+            <button type="submit">Cadastrar</button>
+
+           </div>
+
+          </div>  
+            
+           
+        </form>
+    </div>
+  
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  
+ 
+</body>
+</html>

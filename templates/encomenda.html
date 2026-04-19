@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Encomendas</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/encomenda.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- FORM CADASTRO -->
+    <div class="card">
+
+        <h2>Cadastrar Encomenda para {{ morador.nome }}</h2>
+
+        <form method="POST" action="{{ url_for('morador.RegistrarEncomenda') }}">
+
+            <input type="hidden" name="morador_id" value="{{ morador.id }}">
+
+            <div class="grid">
+
+                <div>
+                    <label>Responsável</label>
+                    <input type="text" name="nome_responsavel">
+                </div>
+
+                <div>
+                    <label>Data Recebimento</label>
+                    <input type="date" name="data_recebimento">
+                </div>
+
+                <div>
+                    <label>Data Entrega</label>
+                    <input type="date" name="data_entrega">
+                </div>
+
+                <div>
+                    <label>Status</label>
+                    <select name="status">
+                        <option>Pendente</option>
+                        <option>Notificado</option>
+                        <option>Entregue</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit">Salvar Encomenda</button>
+            <a href="{{ url_for('morador.cadastro') }}">⬅ Voltar</a>
+
+        </form>
+    
+    </div>
+
+    <!-- TABELA + EXCLUSÃO -->
+    <div class="card">
+
+        <h3>Encomendas cadastradas</h3>
+
+       
+        <table class="table-container">
+
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" onclick="toggleAll(this)">
+                    </th>
+                    <th>Responsável</th>
+                    <th>Recebimento</th>
+                    <th>Entrega</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+        
+                {% for e in encomenda %}
+                <tr>
+        
+                    <!-- ✅ CHECKBOX LIGADO AO FORM -->
+                    <td>
+                        <input type="checkbox" name="ids" value="{{ e.id }}" form="form-excluir">
+                    </td>
+        
+                    <td>{{ e.responsavel }}</td>
+                    <td>{{ e.data_entrada }}</td>
+                    <td>{{ e.data_saida }}</td>
+        
+                    <td>
+                        <span class="status {{ e.status|lower }}">
+                            {{ e.status }}
+                        </span>
+                    </td>
+        
+                    <td>
+                        <form method="POST" action="{{ url_for('morador.atualizar_encomenda') }}">
+    
+    <input type="hidden" name="encomenda_id" value="{{ e.id }}">
+
+    <select name="status">
+        <option value="Pendente" {% if e.status == 'Pendente' %}selected{% endif %}>Pendente</option>
+        <option value="Notificado" {% if e.status == 'Notificado' %}selected{% endif %}>Notificado</option>
+        <option value="Entregue" {% if e.status == 'Entregue' %}selected{% endif %}>Entregue</option>
+    </select>
+
+   
+    <input type="date" name="data_entrega" value="{{ e.data_saida }}">
+
+    <button type="submit">Salvar</button>
+
+</form>
+                    </td>
+        
+                </tr>
+                {% endfor %}
+        
+            </tbody>
+        
+        </table>
+            <br>
+            <form id="form-excluir" method="POST" action="{{ url_for('morador.excluir_multiplos') }}">
+                <input type="hidden" name="morador_id" value="{{ morador.id }}">
+            </form>
+            
+            <button type="submit" form="form-excluir"
+            onclick="return confirm('Tem certeza que deseja excluir os selecionados?')">
+                🗑️ Excluir selecionados
+            </button>
+    </div>
+
+</div>
+
+</body>
+</html>

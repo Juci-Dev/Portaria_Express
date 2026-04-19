@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Morador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/M_localizado.css') }}">
+</head>
+
+<body>
+
+<header>
+    <br><h1>Portaria Express</h1><br>
+</header>
+
+{% if morador %}
+
+<div class="container">
+
+    <!-- IMAGEM (lado esquerdo) -->
+    <div class="form-img">
+        <img src="/static/img/cadastro.svg" width="200">
+
+        <div class="btn-registrar">
+            <a href="{{ url_for('morador.abrir_encomenda', morador_id=morador.id) }}">
+                <button type="button">Cadastrar Encomenda</button><br><br>
+
+                <button type="button">Ver histórico</button>
+            </a>
+        </div>
+        
+    </div>
+
+    <div class="form-row">
+
+        <div class="title">
+            <h1>Dados Morador</h1>
+        </div>
+
+   
+
+        <form action="{{ url_for('morador.atualizar') }}" method="POST">
+
+            <input type="hidden" name="id" value="{{ morador.id }}">
+        
+            <div class="form-group">
+                <label>Nome</label>
+                <input type="text" name="nome" value="{{ morador.nome }}">
+            </div>
+        
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" name="email" value="{{ morador.email }}">
+            </div>
+        
+            <div class="form-group">
+                <label>Telefone</label>
+                <input type="text" name="tel" value="{{ morador.tel }}">
+            </div>
+        
+            <div class="form-group">
+                <label>Complemento</label>
+                <input type="text" name="complemento" value="{{ morador.complemento }}">
+            </div>
+        
+            <div class="btn-registrar">
+                <button type="submit">Atualizar</button>
+            </div>
+        
+        </form>
+
+       <div class="btn-registrar">
+  <form id="formExcluir" action="{{ url_for('morador.excluir') }}" method="POST">
+    <input type="hidden" name="id" value="{{ morador.id }}">
+    <button type="submit">Excluir</button>
+  </form>
+</div>
+
+    </div>
+
+</div>
+
+{% else %}
+<div class="msg-erro">
+    Morador não encontrado
+
+    <br><br>
+
+    <button onclick="window.location.href='/'">
+        Voltar
+    </button>
+</div>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      alert("{{ messages[0][1] }}");
+    </script>
+  {% endif %}
+{% endwith %}
+
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

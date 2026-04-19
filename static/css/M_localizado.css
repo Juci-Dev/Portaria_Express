@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* VARIÁVEIS DE COR */
+:root {
+  --primary: #4F46E5;
+  --primary-dark: #4338CA;
+  --background: #F1F5F9;
+  --card: #FFFFFF;
+  --text: #1E293B;
+  --text-light: #64748B;
+  --border: #E2E8F0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--card);
+}
+
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px 40px;
+
+  background: rgba(79, 70, 229, 0.85);
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+h1{
+  color:#FFFFFF; ;
+}
+
+.title{
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+/* CAMPOS */
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-img {
+  width: 50%;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;   
+  align-items: center;
+  justify-content: center;
+  gap: 40px; /* espaço entre imagem e botão */
+}
+.msg-erro {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 100px;
+    text-align: center;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 10px 20px rgba(105, 77, 77, 0.08);
+    font-size: 30px;
+  
+    /* animação */
+    animation: fadeIn 0.5s ease;
+  }
+  
+  /* animação suave */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
