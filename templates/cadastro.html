@@ -51,9 +51,8 @@
           </div>
         {% endif %}
       {% endwith %}
-
-      
-        <form method="POST" action="{{ url_for('morador.cadastrar') }}">
+          
+       <form method="POST" action="{{ url_for('morador.cadastrar') }}">
           <div class="form-box">
             <div class="form-group">
                <label> Nome</label> <input class="box" type="text" name="nome" placeholder="Dígete o nome" value="{{ morador.nome if morador else '' }}">
@@ -62,7 +61,7 @@
                <label>Email</label> <input type="email" name="email" placeholder="Email" value="{{ morador.email if morador else '' }}">
             </div>
             <div class="form-group">
-                <label>Telefone:</label><input type="tel" name="number" placeholder="(XX) xxxxx-xxxx" value="{{ morador.tel if morador else '' }}">
+                <label>Telefone:</label><input type="tel" name="tel" placeholder="(XX) xxxxx-xxxx" value="{{ morador.tel if morador else '' }}">
             </div>
             <div class="form-group">
                 <label>Complemento:</label><input type="text" name="complemento" placeholder="Bloco 3 apto 55" value="{{ morador.complemento if morador else '' }}">
@@ -74,7 +73,6 @@
 
           </div>  
             
-           
         </form>
     </div>
   

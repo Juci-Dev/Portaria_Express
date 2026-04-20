@@ -8,6 +8,7 @@ app.config['SECRET_KEY'] = 'CHAVE_sECRETA'
 
 register_blueprints(app)
 
+
 @app.route('/')
 def home():
     return redirect(url_for('morador.cadastro'))

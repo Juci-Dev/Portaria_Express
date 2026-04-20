@@ -8,11 +8,11 @@ morador_bp = Blueprint('morador', __name__, template_folder='../templates')
 
 @morador_bp.route('/')
 def cadastro():
-    return render_template('cadastro.html', morador=None, mensagem=None)
-
+  return render_template('cadastro.html', morador=None, mensagem=None)
 # Cadastro de morador
 @morador_bp.route('/cadastrar', methods=['POST'])
 def cadastrar():
+    
     nome = request.form.get('nome')
     email = request.form.get('email')
     tel = request.form.get('tel')
@@ -29,6 +29,7 @@ def cadastrar():
 
     flash("Morador cadastrado com sucesso!", "success")
     return redirect(url_for('morador.cadastro'))
+
 
 # Buscar morador
 @morador_bp.route('/buscar', methods=['POST'])
