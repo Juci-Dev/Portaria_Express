@@ -1,7 +1,5 @@
-Projeto da discilplina de 
 
-
-# 🏠 Sistema de controle de Encomendas de Moradores
+# 🏠 Portaria Express - Sistema de controle de Encomendas de Moradores
 
 Este é um projeto desenvolvido com **Python / Flask** e **MySQL**. O projeto consiste no desenvolvimento de um sistema web para registro e controle de encomendas em portarias prediais, com o objetivo de otimizar a gestão de entregas destinadas aos moradores.
 
@@ -32,8 +30,13 @@ O sistema permitirá o cadastro, controle e acompanhamento da retirada de encome
 ---
 
 ## 📁 Estrutura do projeto
+
 app.py              # Arquivo principal da aplicação
+
 db.py               # Conexão com o banco de dados
+
 routes/             # Rotas organizadas (Blueprint)
+
 templates/          # Páginas HTML do sistema
+
 static/             # Arquivos CSS / IMG e JS
