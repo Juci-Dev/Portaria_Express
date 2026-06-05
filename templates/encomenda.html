@@ -13,7 +13,7 @@
 
 <div class="container">
 
-    <!-- FORM CADASTRO -->
+    <!-- FORM CADASTRO -->         
     <div class="card">
 
         <h2>Cadastrar Encomenda para {{ morador.nome }}</h2>
@@ -99,23 +99,59 @@
                     </td>
         
                     <td>
-                        <form method="POST" action="{{ url_for('morador.atualizar_encomenda') }}">
-    
-    <input type="hidden" name="encomenda_id" value="{{ e.id }}">
 
-    <select name="status">
-        <option value="Pendente" {% if e.status == 'Pendente' %}selected{% endif %}>Pendente</option>
-        <option value="Notificado" {% if e.status == 'Notificado' %}selected{% endif %}>Notificado</option>
-        <option value="Entregue" {% if e.status == 'Entregue' %}selected{% endif %}>Entregue</option>
-    </select>
+                        <!-- Formulário para atualizar status da encomenda -->
+                        <form method="POST"
+                              action="{{ url_for('morador.atualizar_encomenda') }}">
+                    
+                            <!-- ID da encomenda -->
+                            <input type="hidden"
+                                   name="encomenda_id"
+                                   value="{{ e.id }}">
+                    
+                            <!-- Status -->
+                            <select name="status">
+                                <option value="Pendente"
+                                    {% if e.status == 'Pendente' %}selected{% endif %}>
+                                    Pendente
+                                </option>
+                    
+                                <option value="Notificado"
+                                    {% if e.status == 'Notificado' %}selected{% endif %}>
+                                    Notificado
+                                </option>
+                    
+                                <option value="Entregue"
+                                    {% if e.status == 'Entregue' %}selected{% endif %}>
+                                    Entregue
+                                </option>
+                            </select>
+                    
+                            <!-- Data da entrega -->
+                            <input type="date"
+                                   name="data_entrega"
+                                   value="{{ e.data_saida }}">
+                    
+                            <!-- Salvar alterações -->
+                            <button type="submit">
+                                💾 Salvar
+                            </button>
+                    
+                    
+                            <!-- Futuro botão de WhatsApp -->
+                            
+                           
+                    
+                        </form>
+                        
+                        <a href="{{ url_for('morador.enviar_whatsapp_encomenda', id=e.id) }}"
+                        class="btn-whatsapp">
 
-   
-    <input type="date" name="data_entrega" value="{{ e.data_saida }}">
-
-    <button type="submit">Salvar</button>
-
-</form>
+                         WhatsApp
+                    </a>
+                    
                     </td>
+                 
         
                 </tr>
                 {% endfor %}
@@ -124,6 +160,7 @@
         
         </table>
             <br>
+            
             <form id="form-excluir" method="POST" action="{{ url_for('morador.excluir_multiplos') }}">
                 <input type="hidden" name="morador_id" value="{{ morador.id }}">
             </form>

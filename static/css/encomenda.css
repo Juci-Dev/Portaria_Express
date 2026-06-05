@@ -147,3 +147,22 @@ th {
   background: #DCFCE7;
   color: #166534;
 }
+
+
+.btn-whatsapp{
+  display: inline-block;
+  margin-left: 1px;
+  margin-top: 8px;
+}
+
+.btn-whatsapp{
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+
+  background: var(--primary);
+  color: white;
+
+  font-size: 14px;
+}

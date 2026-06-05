@@ -1,5 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+
+from flask import Blueprint, render_template, request, flash, url_for, redirect
 from db import get_db_connection
+from urllib.parse import quote
+from flask import redirect
+import smtplib
+from email.mime.text import MIMEText
 
 morador_bp = Blueprint('morador', __name__, template_folder='../templates')
 
@@ -196,3 +201,44 @@ def excluir_multiplos():
 
     return redirect(request.referrer)
 
+@morador_bp.route('/encomenda/email/<int:id>', methods=['POST'])
+def enviar_email_encomenda(id):
+
+    # implementar envio de email
+
+    return redirect(request.referrer)
+
+
+@morador_bp.route('/encomenda/whatsapp/<int:id>')
+def enviar_whatsapp_encomenda(id):
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            m.nome,
+            m.tel
+        FROM encomenda e
+        INNER JOIN morador m
+            ON m.id = e.morador_id
+        WHERE e.id = %s
+    """, (id,))
+
+    dados = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not dados:
+        return redirect(request.referrer)
+
+    telefone = dados['tel']
+
+    mensagem = quote(
+        f"Olá {dados['nome']}, sua encomenda chegou na portaria e está disponível para retirada."
+    )
+
+    return redirect(
+        f"https://web.whatsapp.com/send?phone=55{telefone}&text={mensagem}"
+    )
