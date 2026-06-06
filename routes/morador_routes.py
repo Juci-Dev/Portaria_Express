@@ -1,10 +1,10 @@
 
-from flask import Blueprint, render_template, request, flash, url_for, redirect
+from flask import Blueprint, render_template, request, flash, url_for, redirect,session
 from db import get_db_connection
 from urllib.parse import quote
 from flask import redirect
-import smtplib
-from email.mime.text import MIMEText
+import urllib.parse
+from datetime import datetime
 
 morador_bp = Blueprint('morador', __name__, template_folder='../templates')
 
@@ -34,7 +34,6 @@ def cadastrar():
 
     flash("Morador cadastrado com sucesso!", "success")
     return redirect(url_for('morador.cadastro'))
-
 
 # Buscar morador
 @morador_bp.route('/buscar', methods=['POST'])
@@ -105,9 +104,11 @@ def abrir_encomenda(morador_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
+    # morador
     cursor.execute("SELECT * FROM morador WHERE id = %s", (morador_id,))
     morador = cursor.fetchone()
 
+    # encomendas
     cursor.execute("""
         SELECT * FROM encomenda
         WHERE morador_id = %s
@@ -115,13 +116,31 @@ def abrir_encomenda(morador_id):
     """, (morador_id,))
     encomenda = cursor.fetchall()
 
+    # 🟢 HISTÓRICO WHATSAPP (AQUI É O LUGAR CERTO)
+    cursor.execute("""
+        SELECT 
+            h.id,
+            h.encomenda_id,
+            h.morador_id,
+            h.mensagem,
+            h.data_envio,
+            m.nome
+        FROM historico_whatsapp h
+        INNER JOIN morador m ON m.id = h.morador_id
+        WHERE h.morador_id = %s
+        ORDER BY h.data_envio DESC
+    """, (morador_id,))
+
+    historico = cursor.fetchall()
+
     cursor.close()
     conn.close()
 
     return render_template(
         "encomenda.html",
         morador=morador,
-        encomenda=encomenda
+        encomenda=encomenda,
+        historico=historico   # IMPORTANTE
     )
 @morador_bp.route('/encomenda/cadastrar', methods=['POST'])
 def RegistrarEncomenda():
@@ -160,7 +179,7 @@ def atualizar_encomenda():
     status = request.form.get("status")
     data_entrega = request.form.get("data_entrega")
 
-    # 👉 se vier vazio, vira None (NULL no banco)
+    #  se vier vazio, vira None (NULL no banco)
     if not data_entrega:
         data_entrega = None
         
@@ -187,13 +206,26 @@ def excluir_multiplos():
     if not ids:
         return redirect(request.referrer)
 
+    print("IDS SELECIONADOS:", ids)
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "DELETE FROM encomenda WHERE id IN (%s)" % ",".join(["%s"] * len(ids)),
+        "DELETE FROM historico_whatsapp WHERE encomenda_id IN (%s)"
+        % ",".join(["%s"] * len(ids)),
         tuple(ids)
     )
+
+    print("Históricos apagados:", cursor.rowcount)
+
+    cursor.execute(
+        "DELETE FROM encomenda WHERE id IN (%s)"
+        % ",".join(["%s"] * len(ids)),
+        tuple(ids)
+    )
+
+    print("Encomendas apagadas:", cursor.rowcount)
 
     conn.commit()
     cursor.close()
@@ -201,12 +233,6 @@ def excluir_multiplos():
 
     return redirect(request.referrer)
 
-@morador_bp.route('/encomenda/email/<int:id>', methods=['POST'])
-def enviar_email_encomenda(id):
-
-    # implementar envio de email
-
-    return redirect(request.referrer)
 
 
 @morador_bp.route('/encomenda/whatsapp/<int:id>')
@@ -217,6 +243,7 @@ def enviar_whatsapp_encomenda(id):
 
     cursor.execute("""
         SELECT
+            m.id AS morador_id,
             m.nome,
             m.tel
         FROM encomenda e
@@ -227,18 +254,62 @@ def enviar_whatsapp_encomenda(id):
 
     dados = cursor.fetchone()
 
-    cursor.close()
-    conn.close()
-
     if not dados:
+        cursor.close()
+        conn.close()
         return redirect(request.referrer)
 
     telefone = dados['tel']
+    nome = dados['nome']
+    morador_id = dados['morador_id']
 
-    mensagem = quote(
-        f"Olá {dados['nome']}, sua encomenda chegou na portaria e está disponível para retirada."
-    )
+    mensagem_texto = f"Olá {nome}, sua encomenda chegou na portaria e está disponível para retirada."
+    mensagem = quote(mensagem_texto)
 
+    # 💾 SALVAR HISTÓRICO NO BANCO
+    cursor.execute("""
+        INSERT INTO historico_whatsapp (encomenda_id, morador_id, mensagem)
+        VALUES (%s, %s, %s)
+    """, (id, morador_id, mensagem_texto))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    # 🔗 redireciona para WhatsApp Web
     return redirect(
         f"https://web.whatsapp.com/send?phone=55{telefone}&text={mensagem}"
     )
+    from flask import session
+
+@morador_bp.route('/login', methods=['GET', 'POST'])
+def login():
+
+    if request.method == 'POST':
+
+        nome = request.form.get('nome')
+        senha = request.form.get('senha')
+
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT * FROM usuario
+            WHERE nome = %s AND senha = %s
+        """, (nome, senha))
+
+        usuario = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if usuario:
+            session['usuario'] = usuario['nome']
+            session['funcao'] = usuario['funcao']
+
+            return redirect(url_for('morador.cadastro'))
+        else:
+            return render_template('login.html', erro="Login inválido")
+
+    return render_template('login.html')

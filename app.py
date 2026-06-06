@@ -4,7 +4,8 @@ from routes import register_blueprints
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'CHAVE_sECRETA'
+app.config['SECRET_KEY'] ='CHAVE_sECRETA'
+
 
 register_blueprints(app)
 

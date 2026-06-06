@@ -160,6 +160,35 @@
         
         </table>
             <br>
+            <div class="card">
+
+                <h3>Histórico de WhatsApp</h3>
+            
+                <table class="table-container">
+            
+                    <thead>
+                        <tr>
+                            <th>Morador</th>
+                            <th>Mensagem</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+            
+                        {% for h in historico %}
+                        <tr>
+                            <td>{{ h.nome }}</td>
+                            <td>{{ h.mensagem }}</td>
+                            <td>{{ h.data_envio }}</td>
+                        </tr>
+                        {% endfor %}
+            
+                    </tbody>
+            
+                </table>
+            
+            </div>
             
             <form id="form-excluir" method="POST" action="{{ url_for('morador.excluir_multiplos') }}">
                 <input type="hidden" name="morador_id" value="{{ morador.id }}">
