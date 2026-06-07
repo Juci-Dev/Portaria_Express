@@ -26,9 +26,11 @@
 
                 <div>
                     <label>Responsável</label>
-                    <input type="text" name="nome_responsavel">
+                    <input
+                        type="text"
+                        value="{{ session.get('usuario', '') }}"
+                        readonly>
                 </div>
-
                 <div>
                     <label>Data Recebimento</label>
                     <input type="date" name="data_recebimento">
@@ -51,7 +53,7 @@
             </div>
 
             <button type="submit">Salvar Encomenda</button>
-            <a href="{{ url_for('morador.cadastro') }}">⬅ Voltar</a>
+            <a href="{{ request.referrer }}">⬅ Voltar</a>
 
         </form>
     
@@ -74,6 +76,7 @@
                     <th>Recebimento</th>
                     <th>Entrega</th>
                     <th>Status</th>
+                    <th>Entregue por</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -97,6 +100,7 @@
                             {{ e.status }}
                         </span>
                     </td>
+                    <td>{{ e.entregue_por }}</td>
         
                     <td>
 

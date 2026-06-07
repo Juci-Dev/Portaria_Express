@@ -9,22 +9,26 @@
 
 
 <body>
-    <header>
-    
-        <div class="form-search">
-            <h1>Portaria Express</h1>
+  <header class="topbar">
+
+    <!-- ESQUERDA -->
+    <div class="left">
+        <h1>Portaria Express</h1>
+
         
-            <!-- Formulário de busca -->
-            <form class="search-bar" action="{{ url_for('morador.buscar') }}" method="POST">
-              <input type="text" name="nome" placeholder="SEARCH..." />
-              <button type="submit">
-                🔍
-              </button>
-            </form>
-    
-    
-        </div>
-     </header>
+
+        <a href="{{ url_for('morador.logout') }}" class="logout">
+            🚪 Sair
+        </a>
+    </div>
+
+    <!-- BUSCA -->
+    <form class="search-bar" action="{{ url_for('morador.buscar') }}" method="POST">
+        <input type="text" name="nome" placeholder="SEARCH..." />
+        <button type="submit">🔍</button>
+    </form>
+
+</header>
   <div class="container">
     
 
@@ -79,6 +83,20 @@
     
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   
- 
+  </div>
+  <footer class="footer">
+    <div class="footer-content">
+        <p>© 2026 Portaria Express. Todos os direitos reservados.</p>
+
+        <div class="footer-links">
+            <a href="https://github.com/Juci-Dev" target="_blank">
+                GitHub
+            </a>
+        </div>
+    </div>
+</footer>
+
+
+
 </body>
 </html>

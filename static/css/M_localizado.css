@@ -6,7 +6,7 @@
 
 /* VARIÁVEIS DE COR */
 :root {
-  --primary: #4F46E5;
+  --primary: #cecddb;
   --primary-dark: #4338CA;
   --background: #F1F5F9;
   --card: #FFFFFF;
@@ -18,9 +18,22 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: var(--card);
+  background: url('/static/IMG/WhatsApp\ Image\ 2026-06-07\ at\ 13.48.54.jpeg');
+    background-size: 100%;
+background-position: left center;
 }
 
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
+  background: rgba(245, 244, 244, 0.5); /* transparência aqui */
+  z-index: -1;
+}
 header {
   position: sticky;
   top: 0;
@@ -36,6 +49,37 @@ header {
   backdrop-filter: blur(10px);
 
   border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+header a {
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  margin-right: 15px;
+  transition: 0.2s;
+}
+
+/* LINKS */
+.logout  {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.logout  {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.logout:hover {
+  color: #fdfdfd;
+}
+.link  {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
 }
 h1{
   color:#FFFFFF; ;
@@ -90,3 +134,34 @@ h1{
     }
   }
 
+  .footer {
+   
+    color: #060606;
+    padding: 15px 20px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column; /* 🔥 empilha tudo */
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+    text-align: center;
+}
+
+.footer-links a {
+    color: #101010;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    color: #433f3f;
+}

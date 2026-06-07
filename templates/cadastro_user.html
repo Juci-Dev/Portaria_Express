@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Portaria Express</title>
+    <title>Cadastro de Usuário</title>
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
           rel='stylesheet'>
@@ -15,19 +15,15 @@
 
     <main class="container">
 
-        <h1>Login Portaria Express</h1>
+        <h1>Cadastro de Usuário</h1>
 
-        {% if erro %}
-            <p>{{ erro }}</p>
-        {% endif %}
-
-        <form method="POST" action="{{ url_for('morador.login') }}">
+        <form method="POST" action="{{ url_for('morador.cadastro_usuario') }}">
 
             <div class="input-box">
                 <input
                     type="text"
                     name="nome"
-                    placeholder="Usuário"
+                    placeholder="Nome de usuário"
                     required>
                 <i class="bx bxs-user"></i>
             </div>
@@ -41,25 +37,18 @@
                 <i class="bx bxs-lock-alt"></i>
             </div>
 
-            <div class="remenber-forgot">
-                <label>
-                    <input type="checkbox">
-                    Lembrar senha
-                </label>
-
-                <a href="#">Esqueci Senha</a>
+            <div class="input-box">
+                <select name="funcao" required>
+                    <option value="">Selecione a função</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Porteiro">Porteiro</option>
+                    <option value="Síndico">Síndico</option>
+                </select>
             </div>
 
             <button type="submit" class="login">
-                Login
+                Cadastrar
             </button>
-
-            <div class="register-link">
-                <p>
-                    Primeiro acesso?
-                    <a href="{{ url_for('morador.cadastro_usuario') }}">Cadastre-se</a>
-                </p>
-            </div>
 
         </form>
 
@@ -76,5 +65,4 @@
         </div>
     </footer>
 </body>
-
 </html>

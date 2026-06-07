@@ -9,9 +9,16 @@
 
 <body>
 
-<header>
-    <br><h1>Portaria Express</h1><br>
-</header>
+    <header class="topbar">
+
+        <h1>Portaria Express</h1>
+    
+        <div class="actions">
+            <a href="{{ url_for('morador.cadastro') }}" class="link">⬅ Voltar</a>
+            <a href="{{ url_for('morador.logout') }}" class="logout"> Sair</a>
+        </div>
+    
+    </header>
 
 {% if morador %}
 
@@ -103,5 +110,16 @@
 
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<footer class="footer">
+    <div class="footer-content">
+        <p>© 2026 Portaria Express. Todos os direitos reservados.</p>
+
+        <div class="footer-links">
+            <a href="https://github.com/Juci-Dev" target="_blank">
+                GitHub
+            </a>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

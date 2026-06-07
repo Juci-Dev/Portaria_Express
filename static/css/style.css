@@ -1,232 +1,428 @@
+/* RESET */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  :root {
-    --primary: #4F46E5;
-    --primary-dark: #4338CA;
-    --background: #F1F5F9;
-    --card: #FFFFFF;
-    --text: #1E293B;
-    --text-light: #64748B;
-    --border: #E2E8F0;
-  }
-  
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: var(--card);
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+/* VARIÁVEIS */
+:root {
+  --primary: #4F46E5;
+  --primary-dark: #4338CA;
+  --background: #F1F5F9;
+  --card: #FFFFFF;
+  --text: #1E293B;
+  --text-light: #64748B;
+  --border: #E2E8F0;
+}
 
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+/* BODY */
+body {
+  font-family: 'Segoe UI', sans-serif;
+
+  background: url('/static/IMG/WhatsApp Image 2026-06-07 at 13.48.54.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  position: relative;
+  min-height: 100vh;
   
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  
-    padding: 15px 40px;
-  
-    background: rgba(79, 70, 229, 0.85);
-    backdrop-filter: blur(10px);
-  
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .form-search {
+}
+
+/* OVERLAY */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 0;
+}
+
+/* GARANTE CONTEÚDO ACIMA DO OVERLAY */
+header,
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+
+  padding: 15px 40px;
+
+  background: rgba(79, 70, 229, 0.9);
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-  
+
+/* FORM HEADER */
+.form-search {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* TÍTULO */
 .form-search h1 {
-  font-size: 35px;
+  font-size: 28px;
   font-weight: 600;
-  margin: 0;
-  color: #FFFFFF;;
+  color: #e5e7eb;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 👈 CONTROLA DISTÂNCIA ENTRE VOLTAR E SAIR */
+}
+.link,
+.logout {
+  text-decoration: none;
+  font-weight: 500;
+  color: #e5e7eb;
+
+  margin: 0; /* 👈 REMOVE ESPAÇO AUTOMÁTICO */
+  padding: 0;
 
   display: flex;
   align-items: center;
-  gap: 8px;
+}
+/* SEARCH */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #e5e7eb;
+  border-radius: 40px;
+  padding: 10px 18px;
+  width: 400px;
+  box-shadow: 8px 8px 16px rgba(0,0,0,0.1);
+}
 
-  }
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background: #e5e7eb; 
-    border-radius: 40px;
-    padding: 12px 20px;
-    width: 500px;
-    
-  
-    box-shadow: 
-      8px 8px 16px rgba(0,0,0,0.1),
-      -8px -8px 16px rgba(255, 255, 255, 0.114);
-  }
-  
-  .search-bar input {
-    border: none;
-    outline: none;
-    background: transparent;
-    flex: 1;
-  
-    font-size: 14px;
-    color: #6b7280;
-    letter-spacing: 1px;
-  }
-  
-  .search-bar input::placeholder {
-    color: #9ca3af;
-  }
-  
-  /* BOTÃO (ícone) */
-  .search-bar button {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 22px;
-    color: #9ca3af;
-  }
-  .container {
-    display: flex;
-    max-width: 1000px;
-    margin: 100px auto;
-    background: var(--card);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    
-  }
-  .container:hover {
-    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-  }
-  
-  .form-img {
-    width: 50%;
-    background: #f8fafc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 14px;
+  color: #6b7280;
+}
 
-  .form-row {
-    width: 50%;
-    padding: 30px;
+.search-bar button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  color: #6b7280;
+}
+
+/* CONTAINER */
+.container {
+  display: flex;
+  max-width: 1000px;
+  margin: 122.5px auto;
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* IMAGEM */
+.form-img {
+  width: 50%;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* FORM */
+.form-row {
+  width: 50%;
+  padding: 30px;
+}
+
+.left {
+  color: #e5e7eb;;
+  margin-bottom: 20px;
+}
+
+/* CAMPOS */
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
+}
+
+/* BOTÃO */
+.btn-registrar {
+  margin-top: 20px;
+}
+
+.btn-registrar button {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-registrar button:hover {
+  background: var(--primary-dark);
+}
+
+/* POPUP */
+.popup-msg {
+  background: #DCFCE7;
+  color: #166534;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  animation: slideIn 0.4s ease;
+}
+
+/* ERRO */
+.msg-erro {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  text-align: center;
+
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+  font-size: 18px;
+  color: #991b1b;
+  font-weight: 500;
+}
+
+/* BOTÃO ERRO */
+.msg-erro button {
+  margin-top: 20px;
+  padding: 10px 20px;
+
+  background: var(--primary);
+  color: white;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.msg-erro button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* ANIMAÇÃO */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
   }
-  
-  .title h1 {
-    color: var(--text);
-    margin-bottom: 20px;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  /* CAMPOS */
-  .form-group {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group strong {
-    font-size: 14px;
-    color: var(--text-light);
-    margin-bottom: 5px;
-  }
-  
-  .form-group input {
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    outline: none;
-    transition: 0.2s;
-  }
-  
-  .form-group input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
-  }
-  
-  .btn-registrar {
-    margin-top: 20px;
-  }
-  
-  .btn-registrar button {
-    width: 100%;
-    padding: 12px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  
-  .btn-registrar button:hover {
-    background: var(--primary-dark);
-  }
-  .popup-msg {
-    background: #DCFCE7; /* verde claro */
-    color: #166534;
-  
-    padding: 12px 18px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-  
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  
-    animation: slideIn 0.4s ease;
-  }
-  
-  .msg-erro {
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* VARIÁVEIS DE COR */
+:root {
+  --primary: #cecddb;
+  --primary-dark: #4338CA;
+  --background: #F1F5F9;
+  --card: #FFFFFF;
+  --text: #1E293B;
+  --text-light: #64748B;
+  --border: #E2E8F0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--card);
+  background: url('/static/IMG/WhatsApp\ Image\ 2026-06-07\ at\ 13.48.54.jpeg');
+    background-size: 100%;
+background-position: left center;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(245, 244, 244, 0.5); /* transparência aqui */
+  z-index: -1;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px 40px;
+
+  background: rgba(79, 70, 229, 0.85);
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+header a {
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  margin-right: 15px;
+  transition: 0.2s;
+}
+
+/* LINKS */
+.logout  {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.logout  {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.logout:hover {
+  color: #fdfdfd;
+}
+.link  {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+h1{
+  color:#FFFFFF; ;
+}
+
+.title{
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+/* CAMPOS */
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-img {
+  width: 50%;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;   
+  align-items: center;
+  justify-content: center;
+  gap: 40px; /* espaço entre imagem e botão */
+}
+.msg-erro {
     max-width: 400px;
-    margin: 80px auto;
-    padding: 30px;
+    margin: 60px auto;
+    padding: 100px;
     text-align: center;
-  
-    background: white;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-  
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  }
-  
-  /* TEXTO */
-  .msg-erro {
-    font-size: 18px;
+    background: #fee2e2;
     color: #991b1b;
-    font-weight: 500;
-  }
-  
-  .msg-erro button {
-    margin-top: 20px;
-    padding: 10px 20px;
-  
-    background: var(--primary);
-    color: white;
-  
-    border: none;
     border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 10px 20px rgba(105, 77, 77, 0.08);
+    font-size: 30px;
   
-    cursor: pointer;
-    transition: 0.2s;
+    /* animação */
+    animation: fadeIn 0.5s ease;
   }
   
-  .msg-erro button:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-  }
-  
-  @keyframes slideIn {
+  /* animação suave */
+  @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateX(40px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateY(0);
     }
   }
+
+  .footer {
+   
+    color: #060606;
+    padding: 15px 20px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column; /* 🔥 empilha tudo */
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+    text-align: center;
+}
+
+.footer-links a {
+    color: #101010;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    color: #433f3f;
+}

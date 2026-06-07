@@ -10,10 +10,21 @@ morador_bp = Blueprint('morador', __name__, template_folder='../templates')
 
 # Página de cadastro
 
-
 @morador_bp.route('/')
 def cadastro():
-  return render_template('cadastro.html', morador=None, mensagem=None)
+    
+    return redirect(url_for('morador.login'))
+
+#@morador_bp.route('/')
+#def cadastro():
+  #return render_template('cadastro.html', morador=None, mensagem=None)
+@morador_bp.route('/home')
+def home():
+    return render_template('cadastro.html', morador=None, mensagem=None)
+@morador_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('morador.login'))
 # Cadastro de morador
 @morador_bp.route('/cadastrar', methods=['POST'])
 def cadastrar():
@@ -116,7 +127,7 @@ def abrir_encomenda(morador_id):
     """, (morador_id,))
     encomenda = cursor.fetchall()
 
-    # 🟢 HISTÓRICO WHATSAPP (AQUI É O LUGAR CERTO)
+    # 🟢 HISTÓRICO WHATSAPP
     cursor.execute("""
         SELECT 
             h.id,
@@ -146,10 +157,11 @@ def abrir_encomenda(morador_id):
 def RegistrarEncomenda():
 
     morador_id = request.form.get('morador_id')
-    responsavel = request.form.get('nome_responsavel')
+    responsavel = session.get('usuario')
     data_entrada = request.form.get('data_recebimento')
     data_saida = request.form.get('data_entrega')
     status = request.form.get('status')
+    
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -266,7 +278,7 @@ def enviar_whatsapp_encomenda(id):
     mensagem_texto = f"Olá {nome}, sua encomenda chegou na portaria e está disponível para retirada."
     mensagem = quote(mensagem_texto)
 
-    # 💾 SALVAR HISTÓRICO NO BANCO
+    # SALVA HISTÓRICO NO BANCO
     cursor.execute("""
         INSERT INTO historico_whatsapp (encomenda_id, morador_id, mensagem)
         VALUES (%s, %s, %s)
@@ -295,21 +307,54 @@ def login():
         cursor = conn.cursor(dictionary=True)
 
         cursor.execute("""
-            SELECT * FROM usuario
+            SELECT id, nome, funcao
+            FROM usuario
             WHERE nome = %s AND senha = %s
         """, (nome, senha))
 
-        usuario = cursor.fetchone()
+        usuario_portaria = cursor.fetchone()
 
         cursor.close()
         conn.close()
 
-        if usuario:
-            session['usuario'] = usuario['nome']
-            session['funcao'] = usuario['funcao']
+        if usuario_portaria:
 
-            return redirect(url_for('morador.cadastro'))
-        else:
-            return render_template('login.html', erro="Login inválido")
+            session['usuario_id'] = usuario_portaria['id']
+            session['usuario'] = usuario_portaria['nome']
+            session['funcao'] = usuario_portaria['funcao']
+
+            return redirect(url_for('morador.home'))
+
+        return render_template(
+            'login.html',
+            erro='Usuário ou senha inválidos.'
+        )
 
     return render_template('login.html')
+
+
+@morador_bp.route('/cadastro_usuario', methods=['GET', 'POST'])
+def cadastro_usuario():
+
+    if request.method == 'POST':
+
+        nome = request.form.get('nome')
+        senha = request.form.get('senha')
+        funcao = request.form.get('funcao')
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO usuario (nome, senha, funcao)
+            VALUES (%s, %s, %s)
+        """, (nome, senha, funcao))
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return redirect(url_for('morador.login'))
+
+    return render_template('cadastro_user.html')
